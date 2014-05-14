@@ -161,7 +161,7 @@
             document.body.removeChild(svg1);
             document.body.removeChild(svg2);
           }
-          if(this.focusRect.parentNode) {
+          if(this.focusRect && this.focusRect.parentNode) {
             document.body.removeChild(this.focusRect);
           }
           window.cancelAnimationFrame(this.req);
