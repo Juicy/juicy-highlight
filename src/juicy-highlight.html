@@ -123,11 +123,16 @@
         drawMask: function () {
           drawMask(this,svg1, svg2, this.focusRect, this.overlay);
         },
+
+        /**
+         * Highlight element(s)
+         * @param elements {null|Element|Array|NodeList}
+         */
         show: function(elements) {
           if (Array.isArray(elements)) {
             this.focused = elements;
           }
-          else if (elements.length) {
+          else if (elements && elements.length) {
             this.focused = Array.prototype.slice.call(elements); //convert NodeList to Array
           }
           else if(elements) {
@@ -156,6 +161,10 @@
           }
           repeat.call(this);
         },
+
+        /**
+         * Hide current highlight
+         */
         hide: function() {
           if(this.overlay && svg1.parentNode) {
             document.body.removeChild(svg1);

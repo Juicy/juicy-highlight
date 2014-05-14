@@ -49,11 +49,11 @@ Attribute         | Type           | Default      | Description
 
 ## Methods
 
-Name               | Param name | Type                             | Description
----                | ---        | ---                              | ---
-`show`             |            |                                  | Highlight element(s)
-                   | element    | *Element*, *Array* or *NodeList* | DOM element or array of those to highlight
-`hide`             |            |                                  | Hide current highlight
+Name               | Param name | Type                                     | Description
+---                | ---        | ---                                      | ---
+`show`             |            |                                          | Highlight element(s)
+                   | elements   | *null*, *Element*, *Array* or *NodeList* | DOM element or array of those to highlight. If no elements are specified, only overlay will be shown (if applicable)
+`hide`             |            |                                          | Hide current highlight
 
 ## Contributing
 
