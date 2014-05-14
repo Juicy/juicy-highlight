@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>&lt;juicy-highlight&gt;</title>
+
+  <!-- Importing Web Component's Polyfill -->
+  <script src="../platform/platform.js"></script>
+
+  <!-- Importing Custom Elements -->
+  <link rel="import" href="../juicy-highlight/src/juicy-highlight.html">
+
+  <style>
+    html {
+      min-height: 100%;
+    }
+
+    body {
+      padding: 2em;
+    }
+
+    ul.playground {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.playground li {
+      margin: 0 20px 0 0;
+      float: left;
+      width: 150px;
+      height: 150px;
+      cursor: pointer;
+      padding: 15px;
+    }
+
+    ul.playground li:nth-child(1) {
+      background-color: #FFD310;
+    }
+
+    ul.playground li:nth-child(2) {
+      background-color: #FFB02F;
+    }
+
+    ul.playground li:nth-child(3) {
+      background-color: #FF7C5E;
+    }
+
+    ul.playground:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    button#hideAll {
+      position: relative;
+      z-index: 100;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>&lt;juicy-highlight&gt;</h1>
+
+<p>See <a href="https://github.com/Juicy/juicy-highlight">README.md</a> for docs</p>
+
+<ul class="playground">
+  <li>Play with me</li>
+  <li>Move your mouse here</li>
+  <li>Click on me</li>
+</ul>
+
+<juicy-highlight id="borderWithOverlay" overlay strokeWidth="4" strokeColor="#33579F" strokeOffset="6"></juicy-highlight>
+<juicy-highlight id="border" strokeWidth="2" strokeColor="#222222" strokeOffset="4"></juicy-highlight>
+
+<button id="hideAll">Hide all overlays</button>
+<button id="selectAll">Select all</button>
+
+<script>
+  window.addEventListener("polymer-ready", function() {
+    document.querySelector("#border").show(document.querySelectorAll("li"));
+
+    window.addEventListener("mouseover", function (ev) {
+      if (ev.target.nodeName == "LI") {
+        document.querySelector("#border").show(ev.target);
+      }
+    });
+
+    window.addEventListener("click", function (ev) {
+      if (ev.target.nodeName == "LI") {
+        document.querySelector("#borderWithOverlay").show(ev.target);
+      }
+    });
+
+    document.querySelector("#hideAll").addEventListener("click", function (ev) {
+      document.querySelector("#border").hide();
+      document.querySelector("#borderWithOverlay").hide();
+    });
+
+    document.querySelector("#selectAll").addEventListener("click", function (ev) {
+      document.querySelector("#border").show(document.querySelectorAll("li"));
+    });
+  });
+</script>
+
+</body>
+</html>

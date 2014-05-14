@@ -1,0 +1,19 @@
+{
+  "name": "juicy-highlight",
+  "version": "0.0.0",
+  "description": "Polymer Element that highlights a DOM element on screen using a SVG overlay and/or border",
+  "homepage": "https://github.com/Juicy/juicy-highlight",
+  "license": "MIT",
+  "main": "src/juicy-highlight.html",
+  "keywords": [
+    "polymer",
+    "web-components"
+  ],
+  "ignore": [
+    "**/.*",
+    "bower_components"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer"
+  }
+}
