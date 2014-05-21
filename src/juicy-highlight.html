@@ -72,14 +72,22 @@
       return p;
   }
 
+  /**
+   * For elements that are on screen, returns path with rectangle around the element. Otherwise returns empty path
+   * @param {Element} focused HTML element
+   * @param {Number} strokeOffset Distance from element to draw the line
+   * @return {String}
+   */
   function calcFocusRect(focused, strokeOffset) {
-    if (!focused.offsetWidth) {
-      throw new Error("The element does not have a size!", focused);
+    if (focused.offsetWidth) {
+      var fw = focused.offsetWidth+strokeOffset;
+      var fh = focused.offsetHeight+strokeOffset;
+      var pos = GetScreenCoordinates(focused);
+      return " M "+(pos.x-strokeOffset/2)+" "+(pos.y-strokeOffset/2)+" l "+fw+" 0 l 0 "+fh+" l -"+fw+" 0 Z";
     }
-    var fw = focused.offsetWidth+strokeOffset;
-    var fh = focused.offsetHeight+strokeOffset;
-    var pos = GetScreenCoordinates(focused);
-    return " M "+(pos.x-strokeOffset/2)+" "+(pos.y-strokeOffset/2)+" l "+fw+" 0 l 0 "+fh+" l -"+fw+" 0 Z";
+    else {
+      return " M 0 0 Z";
+    }
   }
 
 
