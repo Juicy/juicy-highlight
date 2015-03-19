@@ -88,61 +88,51 @@
             }
 
             function drawMask(maskElement, svg1, svg2, focusRect, overlay) {
-                var sizes = getElementSizes(maskElement.focused);
-
-                if (maskElement.currentState == "shown" && maskElement.currentSizes == sizes) {
-                    return;
-                } else {
-                    maskElement.currentSizes = sizes;
-                }
-                
                 var availableWidth = document.documentElement.scrollWidth;
                 var availableHeight = document.documentElement.scrollHeight; //document.documentElement.scrollHeight returns the dimension of the page
-                var str = calcMask(availableWidth, availableHeight, maskElement.focused, maskElement.strokeOffset);
-                if (overlay) {
-                    var mask = svg1.firstChild;
-                    mask.setAttribute("d", str);
-                    var mask2 = svg2.firstChild;
-                    mask2.setAttribute("d", str);
-                }
+                var maskSvg = calcMask(availableWidth, availableHeight, maskElement.focused, maskElement.strokeOffset);
+                var rectSvg = "";
                 var rect = focusRect.firstChild;
+                var hidden = maskElement.currentState != "shown";
+
                 if (maskElement.focused.length) {
-                    var str = '';
                     for (var i = 0, ilen = maskElement.focused.length; i < ilen; i++) {
-                        str += calcFocusRect(maskElement.focused[i], maskElement.strokeOffset);
+                        rectSvg += calcFocusRect(maskElement.focused[i], maskElement.strokeOffset);
                     }
-                    rect.setAttribute("d", str);
                 }
                 else {
-                    rect.setAttribute("d", "M 0 0");
-                }
-                svg1.style.width = availableWidth + "px"; //need to actually set dimensions of SVG, otherwise will not render in whole
-                svg2.style.width = availableWidth + "px";
-                focusRect.style.width = availableWidth + "px";
-                svg1.style.height = availableHeight + "px";
-                svg2.style.height = availableHeight + "px";
-                focusRect.style.height = availableHeight + "px";
-            }
-
-            function getElementSizes(elements) {
-                var w = window,
-                    d = document,
-                    e = d.documentElement,
-                    g = d.getElementsByTagName('body')[0],
-                    x = w.innerWidth || e.clientWidth || g.clientWidth,
-                    y = w.innerHeight || e.clientHeight || g.clientHeight;
-                var sizes = [x, ":", y, ";"];
-
-                for (var i = 0; i < elements.length; i++) {
-                    var el = elements[i];
-                    var r = el.getBoundingClientRect()
-
-                    sizes.push(r.left, ":", r.top, ":", r.width, ":", r.height, ";");
+                    rectSvg = "M 0 0";
                 }
 
-                sizes = sizes.join("");
-                
-                return sizes;
+                if (overlay && (hidden || maskElement.currentMaskSvg != maskSvg)) {
+                    var mask = svg1.firstChild;
+                    var mask2 = svg2.firstChild;
+
+                    mask.setAttribute("d", maskSvg);
+                    mask2.setAttribute("d", maskSvg);
+                    maskElement.currentMaskSvg = maskSvg;
+                }
+
+                if (hidden || maskElement.currentRectSvg != rectSvg) {
+                    rect.setAttribute("d", rectSvg);
+                    maskElement.currentRectSvg = rectSvg;
+                }
+
+                var w = availableWidth + "px";
+                var h = availableHeight + "px";
+                var els = [svg1, svg2, focusRect];
+
+                for (var i = 0; i < els.length; i++) {
+                    var el = els[i];
+
+                    if (el.style.width != w) {
+                        el.style.width = w;
+                    }
+
+                    if (el.style.height != h) {
+                        el.style.height = h;
+                    }
+                }
             }
 
             var svg1, svg2;
@@ -154,7 +144,8 @@
                 strokeOffset: 1,
                 focused: null,
                 currentState: null, //Current state of the highlight (shown, hidden).
-                currentSizes: null, //Sizes of currently hightlight elements.
+                currentMaskSvg: null,
+                currentRectSvg: null,
                 drawMask: function () {
                     drawMask(this, svg1, svg2, this.focusRect, this.overlay);
                 },
