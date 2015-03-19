@@ -74,7 +74,7 @@
     <button id="selectAll">Select all</button>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function (event) {
+        var init = function () {
             document.querySelector("#border").show(document.querySelectorAll("li"));
 
             window.addEventListener("mouseover", function (ev) {
@@ -97,6 +97,10 @@
             document.querySelector("#selectAll").addEventListener("click", function (ev) {
                 document.querySelector("#border").show(document.querySelectorAll("li"));
             });
+        };
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            setTimeout(init, 100); //Without timeout works in Chrome only.
         });
     </script>
 
