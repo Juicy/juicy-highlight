@@ -2,7 +2,7 @@
 <script>
     (function (global) {
         var JuicyHighlightPrototype = Object.create(HTMLElement.prototype);
-        var svg1, svg2;
+        var svg;
 
         JuicyHighlightPrototype.createdCallback = function () {
             this.overlay = false;
@@ -43,7 +43,7 @@
             }
         };
 
-        function CreateMask(color, opacity) {
+        function createMask(color, opacity) {
             var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             //var svg = document.querySelector("#gridmask3");
             //var ns = "http://www.w3.org/2000/svg";
@@ -67,7 +67,7 @@
             return svg;
         }
 
-        function CreateFocusRect(strokeWidth, strokeColor) {
+        function createFocusRect(strokeWidth, strokeColor) {
             var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             var ns = null;
             svg.style.pointerEvents = "none";
@@ -92,7 +92,7 @@
             return mask;
         }
 
-        function GetScreenCoordinates(obj) {
+        function getScreenCoordinates(obj) {
             var p = {};
             p.x = obj.offsetLeft;
             p.y = obj.offsetTop;
@@ -119,7 +119,7 @@
             if (focused.offsetWidth) {
                 var fw = focused.offsetWidth + strokeOffset;
                 var fh = focused.offsetHeight + strokeOffset;
-                var pos = GetScreenCoordinates(focused);
+                var pos = getScreenCoordinates(focused);
                 return " M " + (pos.x - strokeOffset / 2) + " " + (pos.y - strokeOffset / 2) + " l " + fw + " 0 l 0 " + fh + " l -" + fw + " 0 Z";
             }
             else {
@@ -127,7 +127,7 @@
             }
         }
 
-        function drawMask(maskElement, svg1, svg2, focusRect, overlay) {
+        function drawMask(maskElement, svg, focusRect, overlay) {
             var availableWidth = document.documentElement.scrollWidth;
             var availableHeight = document.documentElement.scrollHeight; //document.documentElement.scrollHeight returns the dimension of the page
             var maskSvg = calcMask(availableWidth, availableHeight, maskElement.focused, maskElement.strokeOffset);
@@ -145,11 +145,9 @@
             }
 
             if (overlay && (hidden || maskElement.currentMaskSvg != maskSvg)) {
-                var mask = svg1.firstChild;
-                var mask2 = svg2.firstChild;
+                var mask = svg.firstChild;
 
                 mask.setAttribute("d", maskSvg);
-                mask2.setAttribute("d", maskSvg);
                 maskElement.currentMaskSvg = maskSvg;
             }
 
@@ -160,7 +158,7 @@
 
             var w = availableWidth + "px";
             var h = availableHeight + "px";
-            var els = [svg1, svg2, focusRect];
+            var els = [svg, focusRect];
 
             for (var i = 0; i < els.length; i++) {
                 var el = els[i];
@@ -189,16 +187,14 @@
                 this.focused = [];
             }
 
-            if (!svg1) {
-                svg1 = CreateMask("#FFFFFF", 0.5);
-                svg2 = CreateMask("#000000", 0.5);
+            if (!svg) {
+                svg = createMask("#555555", 0.75);
             }
             if (!this.focusRect) {
-                this.focusRect = CreateFocusRect(this.strokeWidth, this.strokeColor, this.strokeOffset);
+                this.focusRect = createFocusRect(this.strokeWidth, this.strokeColor, this.strokeOffset);
             }
-            if (this.overlay && !svg1.parentNode) {
-                document.body.appendChild(svg1);
-                document.body.appendChild(svg2);
+            if (this.overlay && !svg.parentNode) {
+                document.body.appendChild(svg);
             }
             if (this.focusRect && !this.focusRect.parentNode) {
                 document.body.appendChild(this.focusRect);
@@ -213,9 +209,8 @@
         };
 
         JuicyHighlightPrototype.hide = function () {
-            if (this.overlay && svg1.parentNode) {
-                document.body.removeChild(svg1);
-                document.body.removeChild(svg2);
+            if (this.overlay && svg.parentNode) {
+                document.body.removeChild(svg);
             }
             if (this.focusRect && this.focusRect.parentNode) {
                 document.body.removeChild(this.focusRect);
@@ -225,7 +220,7 @@
         };
 
         JuicyHighlightPrototype.drawMask = function () {
-            drawMask(this, svg1, svg2, this.focusRect, this.overlay);
+            drawMask(this, svg, this.focusRect, this.overlay);
         };
 
         global.JuicyHighlightElement = document.registerElement('juicy-highlight', {
