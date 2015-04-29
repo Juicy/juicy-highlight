@@ -52,7 +52,7 @@
             svg.style.position = "absolute";
             svg.style.left = 0;
             svg.style.top = 0;
-            document.body.appendChild(svg);
+            //document.body.appendChild(svg);
             //    var defs = document.createElementNS(ns, 'defs');
             //    svg.appendChild(defs);
             var p = document.createElementNS("http://www.w3.org/2000/svg", 'path');
@@ -75,7 +75,7 @@
             svg.setAttribute("fill", "none");
             svg.style.left = 0;
             svg.style.top = 0;
-            document.body.appendChild(svg);
+            //document.body.appendChild(svg);
             var p = document.createElementNS("http://www.w3.org/2000/svg", 'path');
             p.setAttribute("stroke", strokeColor);
             p.setAttribute("stroke-width", strokeWidth + 'px');
@@ -221,6 +221,10 @@
 
         JuicyHighlightPrototype.drawMask = function () {
             drawMask(this, svg, this.focusRect, this.overlay);
+        };
+
+        JuicyHighlightPrototype.detachedCallback = function () {
+            this.hide();
         };
 
         global.JuicyHighlightElement = document.registerElement('juicy-highlight', {
