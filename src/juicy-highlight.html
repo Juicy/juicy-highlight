@@ -6,6 +6,7 @@
 
         JuicyHighlightPrototype.createdCallback = function () {
             this.overlay = false;
+            this.fill = false;
             this.strokeWidth = 1;
             this.strokeOffset = 1;
             this.strokeColor = "#000000";
@@ -14,7 +15,7 @@
             this.currentMaskSvg = null;
             this.currentRectSvg = null;
 
-            var attributes = ["overlay", "strokewidth", "strokeoffset", "strokecolor"];
+            var attributes = ["overlay", "strokewidth", "strokeoffset", "strokecolor", "fill"];
 
             for (var i = 0; i < attributes.length; i++) {
                 if (this.hasAttribute(attributes[i])) {
@@ -39,6 +40,9 @@
                     break;
                 case "strokecolor":
                     this.strokeColor = newValue;
+                    break;
+                case "fill":
+                    this.fill = newValue;
                     break;
             }
         };
@@ -67,12 +71,19 @@
             return svg;
         }
 
-        function createFocusRect(strokeWidth, strokeColor) {
+        function createFocusRect(strokeWidth, strokeColor, fill) {
             var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             var ns = null;
             svg.style.pointerEvents = "none";
             svg.style.position = "absolute";
-            svg.setAttribute("fill", "none");
+
+            if (fill) {
+                svg.setAttribute("fill", fill);
+                svg.setAttribute("fill-rule", "evenodd");
+            } else {
+                svg.setAttribute("fill", "none");
+            }
+
             svg.style.left = 0;
             svg.style.top = 0;
             //document.body.appendChild(svg);
@@ -191,7 +202,7 @@
                 svg = createMask("#555555", 0.75);
             }
             if (!this.focusRect) {
-                this.focusRect = createFocusRect(this.strokeWidth, this.strokeColor, this.strokeOffset);
+                this.focusRect = createFocusRect(this.strokeWidth, this.strokeColor, this.fill);
             }
             if (this.overlay && !svg.parentNode) {
                 document.body.appendChild(svg);
