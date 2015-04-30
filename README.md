@@ -46,6 +46,7 @@ Attribute         | Type           | Default      | Description
 `strokeWidth`     | *Number*       | `1`          | Border width in px
 `strokeColor`     | *String*       | `#000000`    | Border color
 `strokeOffset`    | *Number*       | `1`          | Border offset (distance from the element) in px
+`fill`            | *Color*        | `none`       | Color to fill selected area. Accepts HEX (`#FFFF00`), RGB (`rgb(255,255,0)`), RGBA (`rgba(255,255,0,0.5)`), and color name ('yellow').
 
 ## Methods
 
