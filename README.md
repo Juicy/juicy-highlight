@@ -12,6 +12,7 @@
 
     ```sh
     $ bower install juicy-highlight --save
+	```
 
 2. Import Custom Element:
 
