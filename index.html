@@ -49,6 +49,17 @@
             clear: both;
         }
 
+        ul.playground.small {
+            overflow: auto;
+            height: 100px;
+            min-width: 650px;
+        }
+
+        div.playground.small {
+            width: 500px;
+            overflow:auto;
+        }
+
         button#hideAll {
             position: relative;
             z-index: 100;
@@ -66,6 +77,13 @@
         <li>Move your mouse here</li>
         <li>Click on me</li>
     </ul>
+    <div class="playground small">
+        <ul class="playground small">
+            <li>Play with me</li>
+            <li>Move your mouse here</li>
+            <li>Click on me</li>
+        </ul>
+    </div>
 
     <juicy-highlight id="borderWithOverlay" overlay strokewidth="4" strokecolor="#33579F" strokeoffset="6"></juicy-highlight>
     <juicy-highlight id="border" strokewidth="2" strokecolor="#222222" strokeoffset="4"></juicy-highlight>

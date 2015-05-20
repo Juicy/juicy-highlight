@@ -104,19 +104,9 @@
         }
 
         function getScreenCoordinates(obj) {
-            var p = {};
-            p.x = obj.offsetLeft;
-            p.y = obj.offsetTop;
-            while (obj.offsetParent) {
-                p.x = p.x + obj.offsetParent.offsetLeft;
-                p.y = p.y + obj.offsetParent.offsetTop;
-                if (obj == document.getElementsByTagName("body")[0]) {
-                    break;
-                }
-                else {
-                    obj = obj.offsetParent;
-                }
-            }
+            var rec = obj.getBoundingClientRect();
+            var p = { x: rec.left, y: rec.top };
+
             return p;
         }
 
