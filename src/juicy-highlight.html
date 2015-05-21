@@ -105,7 +105,13 @@
 
         function getScreenCoordinates(obj) {
             var rec = obj.getBoundingClientRect();
-            var p = { x: rec.left, y: rec.top };
+            var doc = document.documentElement;
+            var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+            var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+            var p = {
+                x: rec.left + left,
+                y: rec.top + top
+            };
 
             return p;
         }
