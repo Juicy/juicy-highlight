@@ -103,7 +103,12 @@
 
             window.addEventListener("click", function (ev) {
                 if (ev.target.nodeName == "LI") {
-                    document.querySelector("#borderWithOverlay").show(ev.target);
+                    document.querySelector("#borderWithOverlay").show(ev.target, function (el) {
+                        var rec = el.getBoundingClientRect();
+                        var html = ["<div style='background-color:rgba(230, 67, 94, 0.7); padding:2px; font-size:13px;'>Size: ", rec.width, "x", rec.height, "</div>"].join("");
+
+                        return html;
+                    });
                 }
             });
 

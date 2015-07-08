@@ -11,6 +11,7 @@
             this.strokeOffset = 1;
             this.strokeColor = "#000000";
             this.focused = null;
+            this.contents = [];
             this.currentState = null;
             this.currentMaskSvg = null;
             this.currentRectSvg = null;
@@ -180,7 +181,7 @@
             }
         }
 
-        JuicyHighlightPrototype.show = function (elements) {
+        JuicyHighlightPrototype.show = function (elements, getContent) {
             if (Array.isArray(elements)) {
                 this.focused = elements;
             }
@@ -193,6 +194,8 @@
             else {
                 this.focused = [];
             }
+
+            this.generateContent(getContent);
 
             if (!svg) {
                 svg = createMask("#555555", 0.75);
@@ -207,15 +210,18 @@
                 document.body.appendChild(this.focusRect);
             }
             var repeat = function () {
+                this.positionContent();
                 this.drawMask();
                 this.req = window.requestAnimationFrame(repeat.bind(this));
-            }
+            };
 
             this.currentState = "shown";
             repeat.call(this);
         };
 
         JuicyHighlightPrototype.hide = function () {
+            this.removeContent();
+
             if (this.overlay && svg.parentNode) {
                 document.body.removeChild(svg);
             }
@@ -228,6 +234,54 @@
 
         JuicyHighlightPrototype.drawMask = function () {
             drawMask(this, svg, this.focusRect, this.overlay);
+        };
+
+        JuicyHighlightPrototype.positionContent = function () {
+            for (var i = 0; i < this.contents.length; i++) {
+                var div = this.contents[i];
+                var el = div.element;
+                var rec = getScreenCoordinates(el);
+
+                div.style.left = rec.x + "px";
+                div.style.top = rec.y + "px";
+            }
+        };
+
+        JuicyHighlightPrototype.removeContent = function () {
+            for (var i = 0; i < this.contents.length; i++) {
+                var el = this.contents[i];
+
+                el.parentNode.removeChild(el);
+            }
+
+            this.contents.splice(0, this.contents.length);
+        };
+
+        JuicyHighlightPrototype.generateContent = function (getContent) {
+            this.removeContent();
+
+            if (!getContent) {
+                return;
+            }
+
+            var body = document.querySelector("body");
+
+            for (var i = 0; i < this.focused.length; i++) {
+                var el = this.focused[i];
+                var c = getContent(el);
+
+                if (c) {
+                    var div = document.createElement("div");
+
+                    div.innerHTML = c;
+                    div.style.position = "absolute";
+                    div.element = el;
+                    body.appendChild(div);
+                    this.contents.push(div);
+                }
+            }
+
+            this.positionContent();
         };
 
         JuicyHighlightPrototype.detachedCallback = function () {
