@@ -288,6 +288,10 @@
             this.hide();
         };
 
+        JuicyHighlightPrototype.getSvg = function () {
+            return svg;
+        };
+
         global.JuicyHighlightElement = document.registerElement('juicy-highlight', {
             prototype: JuicyHighlightPrototype
         });

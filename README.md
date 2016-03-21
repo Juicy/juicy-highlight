@@ -50,6 +50,7 @@ Name               | Param name | Type                                     | Des
 `show`             |            |                                          | Highlight element(s)
                    | elements   | *null*, *Element*, *Array* or *NodeList* | DOM element or array of those to highlight. If no elements are specified, only overlay will be shown (if applicable)
 `hide`             |            |                                          | Hide current highlight
+`getSvg`           |            | *SVG*                                    | Returns highlight SVG or null
 
 ## Contributing
 
