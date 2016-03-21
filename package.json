@@ -1,6 +1,6 @@
 {
   "name": "juicy-highlight",
-  "version": "0.0.0",
+  "version": "1.0.6",
   "description": "Custom Element that highlights a DOM element on screen using a SVG overlay and/or border",
   "main": "src/juicy-highlight.html",
   "dependencies": {},
