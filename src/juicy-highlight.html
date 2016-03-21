@@ -222,7 +222,7 @@
         JuicyHighlightPrototype.hide = function () {
             this.removeContent();
 
-            if (this.overlay && svg && svg.parentNode) {
+            if (svg && svg.parentNode) {
                 document.body.removeChild(svg);
             }
             if (this.focusRect && this.focusRect.parentNode) {
