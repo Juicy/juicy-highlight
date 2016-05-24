@@ -68,4 +68,4 @@ Name               | Param name | Type                                     | Des
 
 ## License
 
-[MIT License](http://opensource.org/licenses/MIT)
+MIT
