@@ -184,7 +184,7 @@
             if (Array.isArray(elements)) {
                 this.focused = elements;
             }
-            else if (elements && elements.length) {
+            else if (elements instanceof NodeList) {
                 this.focused = Array.prototype.slice.call(elements); //convert NodeList to Array
             }
             else if (elements) {
