@@ -3,7 +3,9 @@
   "version": "1.2.0",
   "description": "Custom Element that highlights a DOM element on screen using a SVG overlay and/or border",
   "main": "juicy-highlight.html",
-  "dependencies": {},
+  "dependencies": {
+    "webcomponentsjs": "^1.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Juicy/juicy-highlight"
