@@ -126,9 +126,7 @@
                     }
                 }
             }
-            
-        const attributes = ["overlay", "strokewidth", "strokeoffset", "strokecolor", "fill"];
-        
+                
         class JuicyHighlightElement extends HTMLElement {            
             constructor(self) {
                 self = super(self);
@@ -143,7 +141,7 @@
                 self.currentMaskSvg = null;
                 self.currentRectSvg = null;
 
-                for (let i = 0; i < attributes.length; i++) {
+                for (let i = 0; i < JuicyHighlightElement.observedAttributes.length; i++) {
                     if (self.hasAttribute(attributes[i])) {
                         self.attributeChangedCallback(attributes[i], null, self.attributes[attributes[i]].value);
                     }
@@ -151,7 +149,7 @@
             };
             
             static get observedAttributes() {
-                return attributes.slice(0); 
+                return ["overlay", "strokewidth", "strokeoffset", "strokecolor", "fill"]; 
             }
             
             attributeChangedCallback(attrName, oldValue, newValue) {
