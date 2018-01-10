@@ -151,7 +151,7 @@
             };
             
             static get observedAttributes() {
-                return attributes; 
+                return attributes.slice(0); 
             }
             
             attributeChangedCallback(attrName, oldValue, newValue) {
