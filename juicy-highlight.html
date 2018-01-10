@@ -1,34 +1,26 @@
 <!-- juicy-highlight version: 1.2.0 | MIT License -->
 <script>
-    (function (global, document) {
+    (function () {
     
-            var createMask = function(color, opacity) {
-                var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                //var svg = document.querySelector("#gridmask3");
-                //var ns = "http://www.w3.org/2000/svg";
-                var ns = null;
+            function createMask(color, opacity) {
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                 svg.style.pointerEvents = "none";
                 svg.style.position = "absolute";
                 svg.style.left = 0;
                 svg.style.top = 0;
-                //document.body.appendChild(svg);
-                //    var defs = document.createElementNS(ns, 'defs');
-                //    svg.appendChild(defs);
-                var p = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+
+                const p = document.createElementNS("http://www.w3.org/2000/svg", 'path');
                 p.setAttribute("fill", color);
                 p.setAttribute("fill-opacity", opacity);
                 p.setAttribute("fill-rule", "evenodd");
-                //p.setAttribute("filter","url(#faded2)");
-                //  var p = svg.getElementById("mask");
-                //p.style.opacity = opacity;
-                //newElement.setAttribute("filter","url(#blur)")
+
                 svg.appendChild(p);
+
                 return svg;
             }
 
-            var createFocusRect = function(strokeWidth, strokeColor, fill) {
-                var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                var ns = null;
+            function createFocusRect(strokeWidth, strokeColor, fill) {
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                 svg.style.pointerEvents = "none";
                 svg.style.position = "absolute";
 
@@ -41,33 +33,33 @@
 
                 svg.style.left = 0;
                 svg.style.top = 0;
-                //document.body.appendChild(svg);
-                var p = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+
+                const p = document.createElementNS("http://www.w3.org/2000/svg", 'path');
                 p.setAttribute("stroke", strokeColor);
                 p.setAttribute("stroke-width", strokeWidth + 'px');
                 svg.appendChild(p);
+                
                 return svg;
             }
 
-            var calcMask = function(cw, ch, focused, strokeOffset) {
-                var mask = "M 0 0 l " + cw + " 0 l 0 " + ch + " l " + -cw + " 0 Z";
-                for (var i = 0, ilen = focused.length; i < ilen; i++) {
+            function calcMask(cw, ch, focused, strokeOffset) {
+                let mask = "M 0 0 l " + cw + " 0 l 0 " + ch + " l " + -cw + " 0 Z";
+                for (let i = 0, ilen = focused.length; i < ilen; i++) {
                     // Clip out the window for the focused items
                     mask += calcFocusRect(focused[i], strokeOffset);
                 }
                 return mask;
             }
 
-            var getScreenCoordinates = function(obj) {
-                var rec = obj.getBoundingClientRect();
-                var doc = document.documentElement;
-                var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-                var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
-                var p = {
+            function getScreenCoordinates(obj) {
+                const rec = obj.getBoundingClientRect();
+                const doc = document.documentElement;
+                const left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+                const top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+                const p = {
                     x: rec.left + left,
                     y: rec.top + top
                 };
-
                 return p;
             }
 
@@ -77,11 +69,11 @@
                 * @param {Number} strokeOffset Distance from element to draw the line
                 * @return {String}
                 */
-            var calcFocusRect = function(focused, strokeOffset) {
+            function calcFocusRect(focused, strokeOffset) {
                 if (focused.offsetWidth) {
-                    var fw = focused.offsetWidth + strokeOffset;
-                    var fh = focused.offsetHeight + strokeOffset;
-                    var pos = getScreenCoordinates(focused);
+                    const fw = focused.offsetWidth + strokeOffset;
+                    const fh = focused.offsetHeight + strokeOffset;
+                    const pos = getScreenCoordinates(focused);
                     return " M " + (pos.x - strokeOffset / 2) + " " + (pos.y - strokeOffset / 2) + " l " + fw + " 0 l 0 " + fh + " l -" + fw + " 0 Z";
                 }
                 else {
@@ -89,16 +81,16 @@
                 }
             }
 
-            var drawMask = function(maskElement, svg, focusRect, overlay) {
-                var availableWidth = document.documentElement.scrollWidth;
-                var availableHeight = document.documentElement.scrollHeight; //document.documentElement.scrollHeight returns the dimension of the page
-                var maskSvg = calcMask(availableWidth, availableHeight, maskElement.focused, maskElement.strokeOffset);
-                var rectSvg = "";
-                var rect = focusRect.firstChild;
-                var hidden = maskElement.currentState != "shown";
+            function drawMask(maskElement, svg, focusRect, overlay) {
+                const availableWidth = document.documentElement.scrollWidth;
+                const availableHeight = document.documentElement.scrollHeight; //document.documentElement.scrollHeight returns the dimension of the page
+                const maskSvg = calcMask(availableWidth, availableHeight, maskElement.focused, maskElement.strokeOffset);
+                let rectSvg = "";
+                const rect = focusRect.firstChild;
+                const hidden = maskElement.currentState != "shown";
 
                 if (maskElement.focused.length) {
-                    for (var i = 0, ilen = maskElement.focused.length; i < ilen; i++) {
+                    for (let i = 0, ilen = maskElement.focused.length; i < ilen; i++) {
                         rectSvg += calcFocusRect(maskElement.focused[i], maskElement.strokeOffset);
                     }
                 }
@@ -107,7 +99,7 @@
                 }
 
                 if (overlay && (hidden || maskElement.currentMaskSvg != maskSvg)) {
-                    var mask = svg.firstChild;
+                    const mask = svg.firstChild;
 
                     mask.setAttribute("d", maskSvg);
                     maskElement.currentMaskSvg = maskSvg;
@@ -118,12 +110,12 @@
                     maskElement.currentRectSvg = rectSvg;
                 }
 
-                var w = availableWidth + "px";
-                var h = availableHeight + "px";
-                var els = [svg, focusRect];
+                const w = availableWidth + "px";
+                const h = availableHeight + "px";
+                const els = [svg, focusRect];
 
-                for (var i = 0; i < els.length; i++) {
-                    var el = els[i];
+                for (let i = 0; i < els.length; i++) {
+                    const el = els[i];
 
                     if (el.style.width != w) {
                         el.style.width = w;
@@ -135,7 +127,7 @@
                 }
             }
             
-        var attributes = ["overlay", "strokewidth", "strokeoffset", "strokecolor", "fill"];
+        const attributes = ["overlay", "strokewidth", "strokeoffset", "strokecolor", "fill"];
         
         class JuicyHighlightElement extends HTMLElement {            
             constructor(self) {
@@ -151,7 +143,7 @@
                 self.currentMaskSvg = null;
                 self.currentRectSvg = null;
 
-                for (var i = 0; i < attributes.length; i++) {
+                for (let i = 0; i < attributes.length; i++) {
                     if (self.hasAttribute(attributes[i])) {
                         self.attributeChangedCallback(attributes[i], null, self.attributes[attributes[i]].value);
                     }
@@ -169,12 +161,12 @@
                         this.overlay = !!newValue;
                         break;
                     case "strokewidth":
-                        var v = parseInt(newValue);
-                        this.strokeWidth = isNaN(v) ? 1 : v;
+                        const v = parseInt(newValue);
+                        this.strokeWidth = Number.isNaN(v) ? 1 : v;
                         break;
                     case "strokeoffset":
-                        var v = parseInt(newValue);
-                        this.strokeOffset = isNaN(v) ? 1 : v;
+                        const v = parseInt(newValue);
+                        this.strokeOffset = Number.isNaN(v) ? 1 : v;
                         break;
                     case "strokecolor":
                         this.strokeColor = newValue;
@@ -190,7 +182,7 @@
                     this.focused = elements;
                 }
                 else if (elements instanceof NodeList) {
-                    this.focused = Array.prototype.slice.call(elements); //convert NodeList to Array
+                    this.focused = Array.from(elements); 
                 }
                 else if (elements) {
                     this.focused = [elements];
@@ -213,7 +205,7 @@
                 if (this.focusRect && !this.focusRect.parentNode) {
                     document.body.appendChild(this.focusRect);
                 }
-                var repeat = function () {
+                function repeat () {
                     this.positionContent();
                     this.drawMask();
                     this.req = window.requestAnimationFrame(repeat.bind(this));
@@ -241,10 +233,10 @@
             };
 
             positionContent() {
-                for (var i = 0; i < this.contents.length; i++) {
-                    var div = this.contents[i];
-                    var el = div.element;
-                    var rec = getScreenCoordinates(el);
+                for (let i = 0; i < this.contents.length; i++) {
+                    const div = this.contents[i];
+                    const el = div.element;
+                    const rec = getScreenCoordinates(el);
 
                     div.style.left = rec.x + "px";
                     div.style.top = rec.y + "px";
@@ -252,8 +244,8 @@
             };
 
             removeContent() {
-                for (var i = 0; i < this.contents.length; i++) {
-                    var el = this.contents[i];
+                for (let i = 0; i < this.contents.length; i++) {
+                    const el = this.contents[i];
 
                     el.parentNode.removeChild(el);
                 }
@@ -268,14 +260,14 @@
                     return;
                 }
 
-                var body = document.querySelector("body");
+                const body = document.querySelector("body");
 
-                for (var i = 0; i < this.focused.length; i++) {
-                    var el = this.focused[i];
-                    var c = getContent(el);
+                for (let i = 0; i < this.focused.length; i++) {
+                    const el = this.focused[i];
+                    const c = getContent(el);
 
                     if (c) {
-                        var div = document.createElement("div");
+                        const div = document.createElement("div");
 
                         div.innerHTML = c;
                         div.style.position = "absolute";
@@ -288,12 +280,12 @@
                 this.positionContent();
             };
 
-            detachedCallback() {
+            disconnectedCallback() {
                 this.hide();
             };
         }
         
-        global.customElements.define('juicy-highlight', JuicyHighlightElement);
+        customElements.define('juicy-highlight', JuicyHighlightElement);
 
-    })(window, document);
+    })();
 </script>
