@@ -17,7 +17,7 @@
 2. Import Custom Element:
 
     ```html
-    <link rel="import" href="bower_components/juicy-highlight/src/juicy-highlight.html">
+    <link rel="import" href="bower_components/juicy-highlight/juicy-highlight.html">
     ```
 
 3. Start using it!
