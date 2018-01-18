@@ -141,7 +141,9 @@
                 self.currentMaskSvg = null;
                 self.currentRectSvg = null;
 
-                for (let i = 0; i < JuicyHighlightElement.observedAttributes.length; i++) {
+                const attributes = JuicyHighlightElement.observedAttributes;
+
+                for (let i = 0; i < attributes.length; i++) {
                     if (self.hasAttribute(attributes[i])) {
                         self.attributeChangedCallback(attributes[i], null, self.attributes[attributes[i]].value);
                     }
@@ -153,17 +155,18 @@
             }
             
             attributeChangedCallback(attrName, oldValue, newValue) {
+                let v;
                 switch (attrName) {
                     case "overlay":
                         newValue = this.hasAttribute("overlay");
                         this.overlay = !!newValue;
                         break;
                     case "strokewidth":
-                        const v = parseInt(newValue);
+                        v = parseInt(newValue);
                         this.strokeWidth = Number.isNaN(v) ? 1 : v;
                         break;
                     case "strokeoffset":
-                        const v = parseInt(newValue);
+                        v = parseInt(newValue);
                         this.strokeOffset = Number.isNaN(v) ? 1 : v;
                         break;
                     case "strokecolor":
